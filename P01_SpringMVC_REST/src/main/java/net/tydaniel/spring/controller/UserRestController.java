@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import net.tydaniel.spring.model.BorrowInfo;
 import net.tydaniel.spring.model.User;
+import net.tydaniel.spring.model.vo.UserBookVO;
 import net.tydaniel.spring.model.vo.UserBorrowedBookVO;
 import net.tydaniel.spring.service.UserService;
 
@@ -67,4 +68,13 @@ public class UserRestController {
 		this.userService.removeUser(userId);
 		return usr;		
 	}
+	
+	@RequestMapping(value = UserRestURIConstants.GET_USERBOOK, method = RequestMethod.GET)
+	public @ResponseBody List<UserBookVO>  getUserBook() {
+		logger.info("Start get User Book");
+		List<UserBookVO> booklist = this.userService.getUserBook();
+		return booklist;		
+	}
+	
+	
 }

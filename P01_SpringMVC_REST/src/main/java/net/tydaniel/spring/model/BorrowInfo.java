@@ -1,6 +1,5 @@
 package net.tydaniel.spring.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
@@ -29,6 +28,7 @@ public class BorrowInfo {
 	@Id
 	@Column(name="id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@JsonIgnore
 	private int id;
 	
 	@Column(name="userid")

@@ -3,6 +3,7 @@ package net.tydaniel.spring.service;
 import java.util.List;
 
 import net.tydaniel.spring.model.User;
+import net.tydaniel.spring.model.vo.UserBookVO;
 import net.tydaniel.spring.model.vo.UserBorrowedBookVO;
 
 public interface UserService {
@@ -12,4 +13,6 @@ public interface UserService {
 	public User getUserById(int id);	
 	public void removeUser(int id);	
 	public List<UserBorrowedBookVO> getUserBorrowed(int id);
+	
+	public List<UserBookVO> getUserBook();
 }

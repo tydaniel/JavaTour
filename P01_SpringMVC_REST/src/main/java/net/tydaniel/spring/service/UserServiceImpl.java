@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.tydaniel.spring.dao.UserDAO;
 import net.tydaniel.spring.model.User;
+import net.tydaniel.spring.model.vo.UserBookVO;
 import net.tydaniel.spring.model.vo.UserBorrowedBookVO;
 
 @Service
@@ -57,5 +58,10 @@ public class UserServiceImpl implements UserService {
 	public List<UserBorrowedBookVO> getUserBorrowed(int id) {
 		return this.userDAO.getUserBorrowed(id);
 	}
-	
+
+	@Override
+	@Transactional
+	public List<UserBookVO> getUserBook() {
+		return this.userDAO.getUserBook();
+	}
 }
