@@ -12,7 +12,6 @@ public interface UserDAO {
 	public List<User> listUsers();
 	public User getUserById(int id);
 	public void removeUser(int id);
-	public List<UserBorrowedBookVO> getUserBorrowed(int id);
-	
+	public List<UserBorrowedBookVO> getUserBorrowed(int id);	
 	public List<UserBookVO> getUserBook();
 }
