@@ -1,7 +1,10 @@
 package net.tydaniel.spring.dao;
 
 import java.util.List;
+
+import net.tydaniel.spring.model.BorrowInfo;
 import net.tydaniel.spring.model.User;
+import net.tydaniel.spring.model.vo.UserBorrowedBookVO;
 
 public interface UserDAO {
 	public void addUser(User p);
@@ -9,4 +12,5 @@ public interface UserDAO {
 	public List<User> listUsers();
 	public User getUserById(int id);
 	public void removeUser(int id);
+	public List<UserBorrowedBookVO> getUserBorrowed(int id);
 }

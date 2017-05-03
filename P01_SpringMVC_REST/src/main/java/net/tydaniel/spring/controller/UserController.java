@@ -47,4 +47,6 @@ public class UserController {
         model.addAttribute("listUsers", this.userService.listUsers());
         return "user";
     }
+
+
 }

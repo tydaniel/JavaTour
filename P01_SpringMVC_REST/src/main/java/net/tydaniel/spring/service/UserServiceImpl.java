@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.tydaniel.spring.dao.UserDAO;
 import net.tydaniel.spring.model.User;
+import net.tydaniel.spring.model.vo.UserBorrowedBookVO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -50,4 +51,11 @@ public class UserServiceImpl implements UserService {
 	public void removeUser(int id) {		
 		this.userDAO.removeUser(id);
 	}
+
+	@Override
+	@Transactional
+	public List<UserBorrowedBookVO> getUserBorrowed(int id) {
+		return this.userDAO.getUserBorrowed(id);
+	}
+	
 }

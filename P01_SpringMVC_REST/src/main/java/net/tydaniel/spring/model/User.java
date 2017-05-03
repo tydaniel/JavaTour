@@ -1,11 +1,21 @@
 package net.tydaniel.spring.model;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 
 /**
  * Entity bean with JPA annotations
@@ -21,10 +31,15 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="users")
+	@JsonIgnore
+	private Set<BorrowInfo> userBorrowInfo;
+	
 	@Column(name="username")
 	private String username;
 	
 	@Column(name="password")
+	@JsonIgnore
 	private String password;
 	
 	@Column(name="name")
@@ -37,8 +52,7 @@ public class User {
 	private String mobile;
 	
 	@Column(name="maxborrow")
-	private int maxborrow;
-	
+	private int maxborrow;	
 	
 	public int getId() {
 		return id;
@@ -94,5 +108,16 @@ public class User {
 
 	public void setMaxborrow(int maxborrow) {
 		this.maxborrow = maxborrow;
-	}	
+	}
+
+	@OneToMany(targetEntity=BorrowInfo.class, cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinColumn(name="id", referencedColumnName="userid")
+	public Set<BorrowInfo> getUserBorrowInfo() {
+		return userBorrowInfo;
+	}
+
+	public void setUserBorrowInfo(Set<BorrowInfo> userBorrowInfo) {
+		this.userBorrowInfo = userBorrowInfo;
+	}
+	
 }

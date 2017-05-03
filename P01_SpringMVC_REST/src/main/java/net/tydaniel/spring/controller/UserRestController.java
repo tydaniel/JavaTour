@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import net.tydaniel.spring.model.BorrowInfo;
 import net.tydaniel.spring.model.User;
+import net.tydaniel.spring.model.vo.UserBorrowedBookVO;
 import net.tydaniel.spring.service.UserService;
 
 @Controller
@@ -25,6 +27,12 @@ public class UserRestController {
 	@Qualifier(value = "userService")
 	public void setUserService(UserService ps){
 		this.userService = ps;
+	}
+	
+	@RequestMapping(value = UserRestURIConstants.GET_USERBORROW, method = RequestMethod.GET)
+	public @ResponseBody List<UserBorrowedBookVO> getUserBorrow(@PathVariable("id") int userId) {
+		logger.info("Start getUserBorrow.ID = "+userId);
+		return this.userService.getUserBorrowed(userId);
 	}
 	
 	@RequestMapping(value = UserRestURIConstants.GET_USER, method = RequestMethod.GET)
