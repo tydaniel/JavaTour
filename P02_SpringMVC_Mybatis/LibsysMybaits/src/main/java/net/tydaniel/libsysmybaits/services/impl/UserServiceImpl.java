@@ -18,7 +18,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
 	@Override
 	public List<User> selectAllUsers() {		
-		return userMapper.selectAllUsers();
+		List<User> userList = userMapper.selectAllUsers();
+		return userList;
 	}
 
 	@Override
