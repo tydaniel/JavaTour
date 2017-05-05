@@ -23,7 +23,7 @@
     <aop:aspectj-autoproxy expose-proxy="true" proxy-target-class="true"/>
     <context:annotation-config/>
     <!-- 扫描service -->
-    <context:component-scan base-package="net.tydaniel.libsysmybaits.service;net.tydaniel.libsysmybaits.controller"/>
+    <context:component-scan base-package="net.tydaniel.libsysmybaits.services"/>
 
     <import resource="classpath:spring/spring-mybatis.xml"/>
     
