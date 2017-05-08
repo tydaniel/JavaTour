@@ -1,5 +1,6 @@
 package net.tydaniel.MPGeneratorMain;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,16 +19,20 @@ import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.toolkit.StringUtils;
 
 public class App 
 {
     public static void main( String[] args )
     {
     	AutoGenerator mpg = new AutoGenerator();
+    	
+    	String outputDir = "d://cache";
+    	final String viewOutputDir = outputDir + "/view/";
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("D://cache");
+        gc.setOutputDir(outputDir);
         gc.setFileOverride(true);
         gc.setActiveRecord(true);
         gc.setEnableCache(false);// XML 二级缓存
@@ -96,25 +101,37 @@ public class App
 		pc.setXml("sqlMapperXml");
 		mpg.setPackageInfo(pc);
 
-        // 注入自定义配置，可以在 VM 中使用 cfg.abc 【可无】
-        InjectionConfig cfg = new InjectionConfig() {
-        	@Override
+		// 注入自定义配置，可以在 VM 中使用 cfg.abc 设置的值
+		InjectionConfig cfg = new InjectionConfig() {
+			@Override
 			public void initMap() {}
-        };
-
-       
-        // 自定义 xxList.jsp 生成
-        List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
-        focList.add(new FileOutConfig("/templates/list.jsp.vm") {
-        	
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输入文件名称
-                return "D://my_" + tableInfo.getEntityName() + ".jsp";
-            }
-        });
-        cfg.setFileOutConfigList(focList);
-        mpg.setCfg(cfg);
+		};
+		// 生成的模版路径，不存在时需要先新建
+		File viewDir = new File(viewOutputDir);
+		if (!viewDir.exists()) {
+			viewDir.mkdirs();
+		}
+		List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
+		focList.add(new FileOutConfig("/templates/add.jsp.vm") {
+			@Override
+			public String outputFile(TableInfo tableInfo) {
+				return getGeneratorViewPath(viewOutputDir, tableInfo, "Add.jsp");
+			}
+		});
+		focList.add(new FileOutConfig("/templates/edit.jsp.vm") {
+			@Override
+			public String outputFile(TableInfo tableInfo) {
+				return getGeneratorViewPath(viewOutputDir, tableInfo, "Edit.jsp");
+			}
+		});
+		focList.add(new FileOutConfig("/templates/list.jsp.vm") {
+			@Override
+			public String outputFile(TableInfo tableInfo) {
+				return getGeneratorViewPath(viewOutputDir, tableInfo, "List.jsp");
+			}
+		});
+		cfg.setFileOutConfigList(focList);
+		mpg.setCfg(cfg);
 
          // 调整 xml 生成目录演示
          focList.add(new FileOutConfig("/templates/mapper.xml.vm") {
@@ -149,5 +166,18 @@ public class App
 //        // 打印注入设置【可无】
 //        System.err.println(mpg.getCfg().getMap().get("abc"));
     }
+    
+    /**
+	 * 页面生成的文件名
+	 */
+	private static String getGeneratorViewPath(String viewOutputDir, TableInfo tableInfo, String suffixPath) {
+		String name = StringUtils.firstToLowerCase(tableInfo.getEntityName());
+		String path = viewOutputDir + "/" + name + "/" + name + suffixPath;
+		File viewDir = new File(path).getParentFile();
+		if (!viewDir.exists()) {
+			viewDir.mkdirs();
+		}
+		return path;
+	}
 
 }
